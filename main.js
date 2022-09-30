@@ -155,6 +155,11 @@ window.onload = () => {
     if (gambleAvailable === false){
         document.getElementById('the-gamble').style.display = "none";
     }
+
+    setInterval( function () {
+        title = ' kiwis - kwiik'
+        document.title = kiwis + title;
+    }, 2000);
 };
 
 
@@ -223,12 +228,10 @@ function buyGambleMachine(){
 }
 
 function gambleKiwis() {
+    document.getElementById('gamblewaiting').style.animation = "fadeIn 1.5s";
     document.getElementById('gamblewaiting').style.display = "flex";
+    waitingGamble();
     let proba = Math.random();
-    gambleWaiting = setTimeout( () => {
-        document.getElementById('gamblewaiting').style.fadeOut =  "slow";
-        document.getElementById('gamblewaiting').style.display = "none";
-    }, 2000);
     if (proba > 0.50){
         setTimeout(() => {
             let multi = Math.floor(kiwis * 2);
@@ -245,6 +248,16 @@ function gambleKiwis() {
         }, 2000);
     }
 }
+
+function waitingGamble() {
+    setTimeout(() => {
+        document.getElementById('gamblewaiting').style.animation = "fadeOut 1.5s";
+        setTimeout(() => {
+            document.getElementById('gamblewaiting').style.display = "none";
+        }, 2100);
+    }, 2000);
+}
+
 function goldenTrigger() {
     if (pressCount > 1){
         let rand = Math.floor(Math.random() * 50);
