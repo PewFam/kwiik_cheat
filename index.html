@@ -35,17 +35,17 @@
         <div class="heading">
             <h1>kwiik</h1>
         </div>
-        <button class="button" id=makeKiwiButton onclick="makeKiwi()">make kiwi (1)</button>
-        <button class="clickupgrades" id=kiwiPressButton onclick="buyPress()">buy press (250)</button>
-        <button class="clickupgrades" id=buyExtractorButton onclick="buyExtractor()">buy extractor (15000)</button>
-        <button class="clickupgrades" id=buyGambleButton onclick="buyGambleMachine()">buy gamble machine (60000)</button>
-        <button class="gambleButton" id=gambleKiwiButton onclick="gambleKiwis()">GAMBLE</button>
-        <button class="clickupgrades" id=buyPediaButton onclick="buyPedia()">buy The Kwiik Pedia (5000)</button>
-        <button class="openPedia" id=openPedia onclick="openPedia()">Open The Kwiik Pedia</button>
+        <button class="button" id=makeKiwiButton onclick="Game.makeKiwi()">make kiwi (1)</button>
+        <button class="clickupgrades" id=kiwiPressButton onclick="Game.buyPress()">buy press (250)</button>
+        <button class="clickupgrades" id=buyExtractorButton onclick="Game.buyExtractor()">buy extractor (15000)</button>
+        <button class="clickupgrades" id=buyGambleButton onclick="Game.buyGambleMachine()">buy gamble machine (60000)</button>
+        <button class="gambleButton" id=gambleKiwiButton onclick="Game.gambleKiwis()">GAMBLE</button>
+        <button class="clickupgrades" id=buyPediaButton onclick="Game.buyPedia()">buy The Kwiik Pedia (5000)</button>
+        <button class="openPedia" id=openPedia onclick="Game.openPedia()">Open The Kwiik Pedia</button>
     </div>
 
     <div class="overlay" id="pedia">
-        <a class="closePedia" onclick="closePedia()">X</a>
+        <a class="closePedia" onclick="Game.closePedia()">X</a>
         <div class="pedia-content">
             <div>
                 <h3>The Kiwi</h3>
@@ -87,6 +87,6 @@
     <div class="footer">
         <p>By Walitam & h912 - 2022</p>
     </div>
-    <button class="buttonreset" id=resetKiwisButton onclick="resetSave()">reset save</button>
+    <button class="buttonreset" id=resetKiwisButton onclick="Game.resetSave()">reset save</button>
 </footer>
 </html>
