@@ -107,7 +107,7 @@ window.onload = () => {
         btn.innerHTML = "Press";
         btn.name = "PRESS";
         btn.className = "PressStyle";
-        document.body.appendChild(btn);
+        document.getElementById('press').appendChild(btn);
     }
 
     if (Game.saveMade === false) {
@@ -118,7 +118,7 @@ window.onload = () => {
         document.getElementById('gambleKiwiButton').style.display = "none";
     } else {
         document.getElementById('buyGambleButton').style.display = "none";
-        document.getElementById('gambleKiwiButton').style.display = "grid";
+        document.getElementById('gambleKiwiButton').style.display = "flex";
     }
     if (Game.pediaAvailable === false){
         document.getElementById('buyPediaButton').style.display = "flex";
@@ -168,7 +168,7 @@ Game.buyPress = function() {
         btn.name = "PRESS";
         btn.className = "PressStyle";
         // add press to html
-        document.body.appendChild(btn);
+        document.getElementById('press').appendChild(btn);
         if (Game.pressCount > 0) {
             Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
             document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
@@ -245,7 +245,7 @@ Game.goldenTrigger = function() {
     if (Game.pressCount > 1){
         let rand = Math.floor(Math.random() * 50);
         function goldenLoop() {
-            setTimeout(function() {console.log('a golden kiwi is gonna appear! be ready'); Game.i = 3; Game.goldenKiwi();
+            setTimeout(function() {console.log('A rare kiwi has grown up'); Game.i = 3; Game.goldenKiwi();
                 if (Game.i < 2) {
                     goldenLoop();
                 }
@@ -260,9 +260,9 @@ Game.goldenKiwi = function() {
     let goldenbtn = document.createElement("button");
     goldenbtn.name = "GOLDEN";
     goldenbtn.id = "goldenKiwi";
-    goldenbtn.innerHTML = "<img class='golden' src='gkiwi.PNG' style='width: 30%;' alt='golden'/>";
+    goldenbtn.innerHTML = "<button class='golden'/>";
     document.body.appendChild(goldenbtn);
-    //peaking a random place to pop
+    //choosing a random place to pop
     let rand = Math.floor(Math.random() * 10);
     let randtop = Math.floor(Math.random() * 10);
     goldenbtn.style.position = 'absolute';
