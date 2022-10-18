@@ -16,6 +16,11 @@ $body = $("body");
 let Game={};
 
 // define variables
+const formatter = Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumSignificantDigits: 3
+});
+
 Game.saveMade = false;
 Game.kiwis = 0;
 Game.defaultKiwiMakeCount = 1;
@@ -45,7 +50,7 @@ Game.updateMakeKiwiButton = function(){
     Game.makeKiwiButton.innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
 }
 Game.updateKiwiCounter = function(){
-    Game.kiwiCounterText.innerHTML = `${Game.kiwis} kiwis`;
+    Game.kiwiCounterText.innerHTML = `${formatter.format(Game.kiwis)} kiwis`;
 }
 Game.updatePressCounter = function(){
     Game.pressCounterText.innerHTML = `${Game.pressCount} presses`;
@@ -121,7 +126,7 @@ window.onload = () => {
         document.getElementById('gambleKiwiButton').style.display = "flex";
     }
     if (Game.pediaAvailable === false){
-        document.getElementById('buyPediaButton').style.display = "flex";
+        document.getElementById('buyPediaButton').style.display = "grid";
         document.getElementById('openPedia').style.display = "none";
     } else {
         document.getElementById('openPedia').style.display = "flex";
@@ -141,7 +146,7 @@ window.onload = () => {
 
     setInterval( function () {
         Game.title = ' kiwis - kwiik'
-        document.title = Game.kiwis + Game.title;
+        document.title = formatter.format(Game.kiwis) + Game.title;
     }, 2000);
 };
 
@@ -149,7 +154,7 @@ window.onload = () => {
 
 // click kiwi function
 Game.makeKiwi = function() {
-    Game.kiwis+=Game.kiwiMakeCount;
+    formatter.format(Game.kiwis+=Game.kiwiMakeCount);
     Game.updateKiwiCounter();
 }
 
@@ -163,22 +168,40 @@ Game.buyPress = function() {
         Game.updateKiwiCounter();
         Game.updatePressCounter()
         // create the button when buyPress clicked
-        let btn = document.createElement("button");
-        btn.innerHTML = "Press";
-        btn.name = "PRESS";
-        btn.className = "PressStyle";
+        let press = document.createElement("button");
+        press.innerHTML = "Press" + " " + Game.pressCount;
+        press.className = "PressStyle";
+        press.id = "press" + Game.pressCount;
+        press.name = "press" + Game.pressCount;
+        Game.pressType = [];
+        Game.pressType.push('press' + Game.pressCount);
+        console.log(Game.pressType);
+        // assign the press type (gnarly, beastly...)
+        Game.pressRun();
         // add press to html
-        document.getElementById('press').appendChild(btn);
-        if (Game.pressCount > 0) {
-            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
-            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
-        }
+        document.getElementById('press').appendChild(press);
         // calculate new pressPrice and flatten it
         Game.pressPrice = Math.floor(Game.pressPrice * 1.2);
         document.getElementById("kiwiPressButton").innerHTML = `buy press (${Game.pressPrice})`;
     } else {
         let missingKiwis = Game.pressPrice - Game.kiwis;
         alert(`You don't have enough kiwis (missing ${missingKiwis} kiwis)`);
+    }
+}
+Game.Rdn = Math.round(Math.random * 3);
+
+Game.pressRun = function() {
+    if (Game.pressCount > 0) {
+        if (Game.Rdn === 0) {
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
+        }
+        if (Game.Rdn === 1) {
+        }
+        if (Game.Rdn === 2) {
+        }
+        if (Game.Rdn === 3) {
+        }
     }
 }
 
@@ -262,7 +285,7 @@ goldenbtn.id = "goldenKiwi";
 
 Game.goldenKiwi = function() {
     //create the button, assign to the html document, set his properties
-    goldenbtn.innerHTML = "<img src='https://cdn.discordapp.com/attachments/468526089153544212/1030787434264416306/unknown.png' class='golden'/>";
+    goldenbtn.innerHTML = "<img src='https://cdn.discordapp.com/attachments/468526089153544212/1030787434264416306/unknown.png' alt='goldenKiwi' class='golden'/>";
     document.body.appendChild(goldenbtn);
     //choosing a random place to pop
     let rand = Math.floor(Math.random() * 10);
@@ -374,7 +397,7 @@ setInterval(function(){
     }
     if (Game.extractorCount > 0) {
         Game.kiwis = Game.kiwis + Game.extractorMakeCount * Game.extractorCount;
-        Game.kiwiCounterText.innerHTML = `${Game.kiwis} kiwis`;
+        Game.kiwiCounterText.innerHTML = `${formatter.format(Game.kiwis)} kiwis`;
     }
     //pedia
     if (Game.kiwis > Game.pediaPrice - 1) {
