@@ -202,14 +202,68 @@ body {
     font-size: 100%;
     transition: 0.3s;
     animation: fadeIn 5s;
+    padding: 1.3em;
+    position: relative;
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.PressStyleNormie {
+    font-family: Roboto Slab;
+    text-align: center;
+    font-size: 100%;
+    transition: 0.3s;
+    animation: fadeIn 5s;
     border: rgb(92, 92, 92) solid 5px;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     color: rgb(27, 90, 105);
     padding: 1.3em;
     position: relative;
     margin-right: 1%;
+    margin-bottom: 1%;
 }
-#press {
+.PressStyleGnarly{
+    border: rgb(196, 151, 0) solid 5px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: rgb(196, 151, 0);
+    font-family: Roboto Slab;
+    text-align: center;
+    font-size: 100%;
+    transition: 0.3s;
+    animation: fadeIn 5s;
+    padding: 1.3em;
+    position: relative;
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.PressStyleBeastly{
+    border: rgb(9, 140, 185) solid 5px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: rgb(9, 164, 178);
+    font-family: Roboto Slab;
+    text-align: center;
+    font-size: 100%;
+    transition: 0.3s;
+    animation: fadeIn 5s;
+    padding: 1.3em;
+    position: relative;
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.PressStyleLazy{
+    border: rgb(10, 136, 17) solid 5px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: rgb(10, 140, 19);
+    font-family: Roboto Slab;
+    text-align: center;
+    font-size: 100%;
+    transition: 0.3s;
+    animation: fadeIn 5s;
+    padding: 1.3em;
+    position: relative;
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+#pressDiv {
     display: flex;
     flex-wrap: wrap-reverse;
     margin-left: 3%;

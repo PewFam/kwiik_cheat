@@ -108,11 +108,7 @@ window.onload = () => {
     let pressToAdd = Game.pressCount;
     while(pressToAdd > 0){
         pressToAdd--;
-        let btn = document.createElement("button");
-        btn.innerHTML = "Press";
-        btn.name = "PRESS";
-        btn.className = "PressStyle";
-        document.getElementById('press').appendChild(btn);
+        Game.pressRun()
     }
 
     if (Game.saveMade === false) {
@@ -158,6 +154,7 @@ Game.makeKiwi = function() {
     Game.updateKiwiCounter();
 }
 
+
 // runs when you buy a press
 Game.buyPress = function() {
     if (Game.kiwis - Game.pressPrice >= 0){
@@ -167,19 +164,9 @@ Game.buyPress = function() {
         console.log(Game.pressCount + "press");
         Game.updateKiwiCounter();
         Game.updatePressCounter()
-        // create the button when buyPress clicked
-        let press = document.createElement("button");
-        press.innerHTML = "Press" + " " + Game.pressCount;
-        press.className = "PressStyle";
-        press.id = "press" + Game.pressCount;
-        press.name = "press" + Game.pressCount;
-        Game.pressType = [];
-        Game.pressType.push('press' + Game.pressCount);
-        console.log(Game.pressType);
-        // assign the press type (gnarly, beastly...)
+        // random number to decide the press type
+        Game.Rdn = Math.floor(Math.random() * 4);
         Game.pressRun();
-        // add press to html
-        document.getElementById('press').appendChild(press);
         // calculate new pressPrice and flatten it
         Game.pressPrice = Math.floor(Game.pressPrice * 1.2);
         document.getElementById("kiwiPressButton").innerHTML = `buy press (${Game.pressPrice})`;
@@ -193,14 +180,52 @@ Game.Rdn = Math.round(Math.random * 3);
 Game.pressRun = function() {
     if (Game.pressCount > 0) {
         if (Game.Rdn === 0) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleNormie";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
             Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
             document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
         }
         if (Game.Rdn === 1) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleGnarly";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
         }
         if (Game.Rdn === 2) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleBeastly";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
         }
         if (Game.Rdn === 3) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleLazy";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
         }
     }
 }
@@ -273,7 +298,7 @@ Game.goldenTrigger = function() {
                 if (Game.i < 2) {
                     goldenLoop();
                 }
-            }, rand * 5000)
+            }, rand * 50000)
         }
         goldenLoop();
     }
@@ -296,7 +321,7 @@ Game.goldenKiwi = function() {
     const golden = document.getElementById('goldenKiwi');
     golden.addEventListener('click', goldenonclick);
     function goldenonclick() {
-        let addkiwi = Math.floor(Game.kiwis / 4);
+        let addkiwi = Math.floor(Game.kiwis + 500);
         Game.kiwis += addkiwi;
         Game.updateKiwiCounter();
         Game.goldenKiwiCounter += 1;
