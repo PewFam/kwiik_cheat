@@ -30,6 +30,10 @@
     </div>
     <div class="news" id="news">
     </div>
+    <div class="menu">
+        <button class="wiki" id="wiki" onclick="Game.openWiki()">Wiki</button>
+        <button class="settings" id="settings" onclick="Game.openSettings()">Settings</button>
+    </div>
     <div class="kwiik">
         <div class="heading">
             <img class="heading-img" src="https://cdn.discordapp.com/attachments/468526089153544212/1028371460953210963/kklogo2.png"/>
@@ -38,7 +42,6 @@
         <div class="mainbuttons">
             <button class="kiwibutton" id=makeKiwiButton onclick="Game.makeKiwi()">make kiwi (1)</button>
             <button class="gambleButton" id=gambleKiwiButton onclick="Game.gambleKiwis()">GAMBLE</button>
-            <button class="openPedia" id=openPedia onclick="Game.openPedia()">Open The Kwiik Pedia</button>
         </div>
         <div class="counter" id="kiwiCounter">
             <h3 id="kiwiCounterText">{} kiwis</h3>
@@ -47,16 +50,15 @@
             <button class="clickupgrades" id=kiwiPressButton onclick="Game.buyPress()">buy press (250)</button>
             <button class="clickupgrades" id=buyExtractorButton onclick="Game.buyExtractor()">buy extractor (15000)</button>
             <button class="clickupgrades" id=buyGambleButton onclick="Game.buyGambleMachine()">buy gamble machine (60000)</button>
-            <button class="clickupgrades" id=buyPediaButton onclick="Game.buyPedia()">buy The Kwiik Pedia (5000)</button>
         </div>
-        <div id="press"></div>
+        <div id="pressDiv"></div>
     </div>
-    <div class="overlay" id="pedia">
-        <a class="closePedia" onclick="Game.closePedia()">X</a>
-        <div class="pedia-content">
+    <div class="overlayWiki" id="overlayWiki">
+        <a class="closeWiki" onclick="Game.closeWiki()">CLOSE</a>
+        <div class="wiki-content">
             <div>
                 <h3>The Kiwi</h3>
-                <p>The beautiful, the tasty, the original kiwi</p>
+                <p>The tasty, beautiful, original</p>
             </div>
             <div id="the-press">
                 <h3>The Press</h3>
@@ -64,20 +66,27 @@
             </div>
             <div id="the-extractor">
                 <h3>The Extractor</h3>
-                <p>They produce +5 kiwis per extractor automatically, even when you're not here (cool hein?)</p>
+                <p>They produce +5 kiwis per extractor automatically, even when you're not here</p>
             </div>
             <div id="the-golden-kiwi">
                 <h3>The Golden Kiwi</h3>
-                <p>A sneaky, rare, but incredibly good fruit that gives you tons of kiwis when you catch it! (+500 per Press!)</p>
+                <p>A sneaky, rare, but incredibly rich fruit that gives you tons of kiwis when you catch it! (+500 per Press)</p>
             </div>
             <div id="the-gamble">
                 <h3>The Gamble Machine</h3>
-                <p>This machine lets you bet half of your kiwis for a 1/2 chance of winning double, or losing half !</p>
+                <p>This machine lets you bet half of your kiwis for a 1/2 chance of winning double, or losing half</p>
             </div>
-            <div class="more-pedia">
+            <div class="more-wiki">
                 <h3>Unlock new Kiwi species and machines to see their description!</h3>
             </div>
         </div>
+    </div>
+    <div class="overlaySettings" id="overlaySettings">
+        <button class="closeWiki" onclick="Game.closeSettings()">CLOSE</button>
+        <div>
+            <h1>kwiik 0.4 - Settings</h1>
+        </div>
+        <button class="buttonreset" id=resetKiwisButton onclick="Game.resetSave()">reset save</button>
     </div>
     <div class="counter" id="pressCounter">
         <h3 id="pressCounterText">{} presses</h3>
@@ -91,6 +100,5 @@
     <div class="footer">
         <p>By Walitam & h912 - 2022</p>
     </div>
-    <button class="buttonreset" id=resetKiwisButton onclick="Game.resetSave()">reset save</button>
 </footer>
 </html>

@@ -4,7 +4,7 @@
 done 0.1 : technical test
 done 0.2 : buildings alpha (ex : press) 
 done 0.3 : auto-kiwi generator (extractors), gamble system, golden kiwi, extractors, loading screen
-upcoming 0.4 : achievements
+upcoming 0.4 : achievements, press types, new ui, new background, json saving system, js number formatting
 */
 
 //Test
@@ -16,6 +16,11 @@ $body = $("body");
 let Game={};
 
 // define variables
+const formatter = Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumSignificantDigits: 3
+});
+
 Game.saveMade = false;
 Game.kiwis = 0;
 Game.defaultKiwiMakeCount = 1;
@@ -32,20 +37,17 @@ Game.extractorCounterText = document.getElementById("extractorCounterText");
 Game.makeKiwiButton = document.getElementById('makeKiwiButton');
 Game.kiwiPressButton = document.getElementById('kiwiPressButton');
 Game.gamblePrice = 60000;
-Game.gambleAvailable = false;
 Game.startDate = 0;
 Game.quitDate = 0;
 Game.goldenKiwiCounter = 0;
 Game.i = 1;
-Game.pediaPrice = 5000;
-Game.pediaAvailable = false;
 
 // utility funcs
 Game.updateMakeKiwiButton = function(){
     Game.makeKiwiButton.innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
 }
 Game.updateKiwiCounter = function(){
-    Game.kiwiCounterText.innerHTML = `${Game.kiwis} kiwis`;
+    Game.kiwiCounterText.innerHTML = `${formatter.format(Game.kiwis)} kiwis`;
 }
 Game.updatePressCounter = function(){
     Game.pressCounterText.innerHTML = `${Game.pressCount} presses`;
@@ -82,7 +84,6 @@ window.onload = () => {
     Game.startDate = Date.now();
     Game.startDate = Game.reductDateToSeconds(Game.startDate);
     Game.quitDate = Game.lds.get("quitDate");
-    Game.pediaAvailable = Game.lds.get("pediaAvailable");
 
     console.log(Game.startDate);
     console.log(Game.quitDate);
@@ -103,11 +104,7 @@ window.onload = () => {
     let pressToAdd = Game.pressCount;
     while(pressToAdd > 0){
         pressToAdd--;
-        let btn = document.createElement("button");
-        btn.innerHTML = "Press";
-        btn.name = "PRESS";
-        btn.className = "PressStyle";
-        document.getElementById('press').appendChild(btn);
+        Game.pressRun()
     }
 
     if (Game.saveMade === false) {
@@ -120,14 +117,7 @@ window.onload = () => {
         document.getElementById('buyGambleButton').style.display = "none";
         document.getElementById('gambleKiwiButton').style.display = "flex";
     }
-    if (Game.pediaAvailable === false){
-        document.getElementById('buyPediaButton').style.display = "flex";
-        document.getElementById('openPedia').style.display = "none";
-    } else {
-        document.getElementById('openPedia').style.display = "flex";
-        document.getElementById('buyPediaButton').style.display = "none";
-    }
-    //pedia text
+    //wiki text
     if (Game.pressCount === 0){
         document.getElementById('the-press').style.display = "none";
         document.getElementById('the-golden-kiwi').style.display = "none";
@@ -140,8 +130,8 @@ window.onload = () => {
     }
 
     setInterval( function () {
-        Game.title = ' kiwis - kwiik'
-        document.title = Game.kiwis + Game.title;
+        Game.title = ' kiwis - kwiik';
+        document.title = formatter.format(Game.kiwis) + Game.title;
     }, 2000);
 };
 
@@ -149,7 +139,7 @@ window.onload = () => {
 
 // click kiwi function
 Game.makeKiwi = function() {
-    Game.kiwis+=Game.kiwiMakeCount;
+    formatter.format(Game.kiwis+=Game.kiwiMakeCount);
     Game.updateKiwiCounter();
 }
 
@@ -162,23 +152,69 @@ Game.buyPress = function() {
         console.log(Game.pressCount + "press");
         Game.updateKiwiCounter();
         Game.updatePressCounter()
-        // create the button when buyPress clicked
-        let btn = document.createElement("button");
-        btn.innerHTML = "Press";
-        btn.name = "PRESS";
-        btn.className = "PressStyle";
-        // add press to html
-        document.getElementById('press').appendChild(btn);
-        if (Game.pressCount > 0) {
-            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
-            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
-        }
+        // random number to decide the press type
+        Game.Rdn = Math.floor(Math.random() * 4);
+        Game.pressRun();
         // calculate new pressPrice and flatten it
         Game.pressPrice = Math.floor(Game.pressPrice * 1.2);
         document.getElementById("kiwiPressButton").innerHTML = `buy press (${Game.pressPrice})`;
     } else {
         let missingKiwis = Game.pressPrice - Game.kiwis;
         alert(`You don't have enough kiwis (missing ${missingKiwis} kiwis)`);
+    }
+}
+Game.Rdn = Math.round(Math.random * 3);
+
+Game.pressRun = function() {
+    if (Game.pressCount > 0) {
+        if (Game.Rdn === 0) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleNormie";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
+        }
+        if (Game.Rdn === 1) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleGnarly";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
+        }
+        if (Game.Rdn === 2) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleBeastly";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
+        }
+        if (Game.Rdn === 3) {
+            // create the button when buyPress clicked
+            let press = document.createElement("button");
+            press.innerHTML = "Press" + " " + Game.pressCount;
+            press.className = "PressStyleLazy";
+            press.id = "press" + Game.pressCount;
+            press.name = "press" + Game.pressCount;
+            // add press to html doc
+            document.getElementById('pressDiv').appendChild(press);
+            Game.kiwiMakeCount = Game.defaultKiwiMakeCount + Game.pressCount;
+            document.getElementById("makeKiwiButton").innerHTML = `make kiwi (${Game.kiwiMakeCount})`;
+        }
     }
 }
 
@@ -250,7 +286,7 @@ Game.goldenTrigger = function() {
                 if (Game.i < 2) {
                     goldenLoop();
                 }
-            }, rand * 5000)
+            }, rand * 50000)
         }
         goldenLoop();
     }
@@ -262,7 +298,7 @@ goldenbtn.id = "goldenKiwi";
 
 Game.goldenKiwi = function() {
     //create the button, assign to the html document, set his properties
-    goldenbtn.innerHTML = "<img src='https://cdn.discordapp.com/attachments/468526089153544212/1030787434264416306/unknown.png' class='golden'/>";
+    goldenbtn.innerHTML = "<img src='https://cdn.discordapp.com/attachments/468526089153544212/1030787434264416306/unknown.png' alt='goldenKiwi' class='golden'/>";
     document.body.appendChild(goldenbtn);
     //choosing a random place to pop
     let rand = Math.floor(Math.random() * 10);
@@ -273,7 +309,7 @@ Game.goldenKiwi = function() {
     const golden = document.getElementById('goldenKiwi');
     golden.addEventListener('click', goldenonclick);
     function goldenonclick() {
-        let addkiwi = Math.floor(Game.kiwis / 4);
+        let addkiwi = Math.floor(Game.kiwis + 500);
         Game.kiwis += addkiwi;
         Game.updateKiwiCounter();
         Game.goldenKiwiCounter += 1;
@@ -284,32 +320,28 @@ Game.goldenKiwi = function() {
 
 }
 
-Game.buyPedia = function() {
-    if (Game.kiwis - Game.pediaPrice >= 0){
-        Game.kiwis -= Game.pediaPrice;
-        console.log("kwiik pedia bought");
-        Game.updateKiwiCounter();
-        document.getElementById('buyPediaButton').style.display = "none";
-        document.getElementById('openPedia').style.display = "flex";
-        Game.pediaAvailable = true;
-    } else {
-        let missingKiwis = Game.pediaPrice - Game.kiwis;
-        alert(`You don't have enough kiwis (missing ${missingKiwis} kiwis)`);
-    }
+
+Game.openWiki = function() {
+    document.getElementById("overlayWiki").style.display = "flex";
+    document.getElementById("overlayWiki").style.animation = "fadeIn 0.5s";
 }
 
-
-
-Game.openPedia = function() {
-    document.getElementById("pedia").style.width = "60%";
-    document.getElementById("pedia").style.height = "60%";
-    document.getElementById("pedia").style.border = "azure 5px solid";
+Game.closeWiki = function() {
+    document.getElementById("overlayWiki").style.animation = "fadeOut 0.5s";
+    setTimeout(function() {
+        document.getElementById("overlayWiki").style.display = "none";
+    }, 500);
 }
 
-Game.closePedia = function() {
-    document.getElementById("pedia").style.width = "0%";
-    document.getElementById("pedia").style.height = "0%";
-    document.getElementById("pedia").style.border = "none";
+Game.openSettings = function() {
+    document.getElementById("overlaySettings").style.display = "flex";
+    document.getElementById("overlaySettings").style.animation = "fadeIn 0.5s";
+}
+Game.closeSettings = function() {
+    document.getElementById("overlaySettings").style.animation = "fadeOut 0.5s";
+    setTimeout(function() {
+        document.getElementById("overlaySettings").style.display = "none";
+    }, 500);
 }
 
 // reset kiwi function
@@ -329,9 +361,6 @@ Game.resetSave = function(){
     Game.updateExtractorCounter()
     Game.updateMakeKiwiButton()
     Game.gambleAvailable = false;
-    Game.pediaAvailable = false;
-    document.getElementById('buyPediaButton').style.display = "grid";
-    document.getElementById('openPedia').style.display = "none";
     document.getElementById('buyGambleButton').style.display = "grid";
     document.getElementById('gambleKiwiButton').style.display = "none";
     Game.kiwiPressButton.innerHTML = `buy press (${Game.pressPrice})`;
@@ -374,17 +403,7 @@ setInterval(function(){
     }
     if (Game.extractorCount > 0) {
         Game.kiwis = Game.kiwis + Game.extractorMakeCount * Game.extractorCount;
-        Game.kiwiCounterText.innerHTML = `${Game.kiwis} kiwis`;
-    }
-    //pedia
-    if (Game.kiwis > Game.pediaPrice - 1) {
-        document.getElementById('buyPediaButton').style.border = "rgb(27, 66, 119) solid 5px";
-        document.getElementById('buyPediaButton').style.color = "rgb(14, 37, 68)";
-        document.getElementById('buyPediaButton').style.opacity = "100%";
-    } else {
-        document.getElementById('buyPediaButton').style.border = "rgb(80, 80, 80) solid 5px";
-        document.getElementById('buyPediaButton').style.color = "rgb(75, 75, 75)";
-        document.getElementById('buyPediaButton').style.opacity = "0.5";
+        Game.kiwiCounterText.innerHTML = `${formatter.format(Game.kiwis)} kiwis`;
     }
     //pedia text
     if (Game.pressCount > 0) {
@@ -416,5 +435,4 @@ window.onbeforeunload = () => {
     Game.lds.set("gambleAvailable", Game.gambleAvailable);
     Game.lds.set("quitDate", Game.quitDate);
     Game.lds.set("goldenKiwiCounter", Game.goldenKiwiCounter);
-    Game.lds.set("pediaAvailable", Game.pediaAvailable);
 };
