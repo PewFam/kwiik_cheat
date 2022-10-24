@@ -4,7 +4,7 @@
 done 0.1 : technical test
 done 0.2 : buildings alpha (ex : press) 
 done 0.3 : auto-kiwi generator (extractors), gamble system, golden kiwi, extractors, loading screen
-upcoming 0.4 : achievements
+upcoming 0.4 : achievements, press types, new ui, new background, json saving system, js number formatting
 */
 
 //Test
@@ -37,13 +37,10 @@ Game.extractorCounterText = document.getElementById("extractorCounterText");
 Game.makeKiwiButton = document.getElementById('makeKiwiButton');
 Game.kiwiPressButton = document.getElementById('kiwiPressButton');
 Game.gamblePrice = 60000;
-Game.gambleAvailable = false;
 Game.startDate = 0;
 Game.quitDate = 0;
 Game.goldenKiwiCounter = 0;
 Game.i = 1;
-Game.pediaPrice = 5000;
-Game.pediaAvailable = false;
 
 // utility funcs
 Game.updateMakeKiwiButton = function(){
@@ -87,7 +84,6 @@ window.onload = () => {
     Game.startDate = Date.now();
     Game.startDate = Game.reductDateToSeconds(Game.startDate);
     Game.quitDate = Game.lds.get("quitDate");
-    Game.pediaAvailable = Game.lds.get("pediaAvailable");
 
     console.log(Game.startDate);
     console.log(Game.quitDate);
@@ -121,14 +117,7 @@ window.onload = () => {
         document.getElementById('buyGambleButton').style.display = "none";
         document.getElementById('gambleKiwiButton').style.display = "flex";
     }
-    if (Game.pediaAvailable === false){
-        document.getElementById('buyPediaButton').style.display = "grid";
-        document.getElementById('openPedia').style.display = "none";
-    } else {
-        document.getElementById('openPedia').style.display = "flex";
-        document.getElementById('buyPediaButton').style.display = "none";
-    }
-    //pedia text
+    //wiki text
     if (Game.pressCount === 0){
         document.getElementById('the-press').style.display = "none";
         document.getElementById('the-golden-kiwi').style.display = "none";
@@ -141,7 +130,7 @@ window.onload = () => {
     }
 
     setInterval( function () {
-        Game.title = ' kiwis - kwiik'
+        Game.title = ' kiwis - kwiik';
         document.title = formatter.format(Game.kiwis) + Game.title;
     }, 2000);
 };
@@ -153,7 +142,6 @@ Game.makeKiwi = function() {
     formatter.format(Game.kiwis+=Game.kiwiMakeCount);
     Game.updateKiwiCounter();
 }
-
 
 // runs when you buy a press
 Game.buyPress = function() {
@@ -332,32 +320,28 @@ Game.goldenKiwi = function() {
 
 }
 
-Game.buyPedia = function() {
-    if (Game.kiwis - Game.pediaPrice >= 0){
-        Game.kiwis -= Game.pediaPrice;
-        console.log("kwiik pedia bought");
-        Game.updateKiwiCounter();
-        document.getElementById('buyPediaButton').style.display = "none";
-        document.getElementById('openPedia').style.display = "flex";
-        Game.pediaAvailable = true;
-    } else {
-        let missingKiwis = Game.pediaPrice - Game.kiwis;
-        alert(`You don't have enough kiwis (missing ${missingKiwis} kiwis)`);
-    }
+
+Game.openWiki = function() {
+    document.getElementById("overlayWiki").style.display = "flex";
+    document.getElementById("overlayWiki").style.animation = "fadeIn 0.5s";
 }
 
-
-
-Game.openPedia = function() {
-    document.getElementById("pedia").style.width = "60%";
-    document.getElementById("pedia").style.height = "60%";
-    document.getElementById("pedia").style.border = "azure 5px solid";
+Game.closeWiki = function() {
+    document.getElementById("overlayWiki").style.animation = "fadeOut 0.5s";
+    setTimeout(function() {
+        document.getElementById("overlayWiki").style.display = "none";
+    }, 500);
 }
 
-Game.closePedia = function() {
-    document.getElementById("pedia").style.width = "0%";
-    document.getElementById("pedia").style.height = "0%";
-    document.getElementById("pedia").style.border = "none";
+Game.openSettings = function() {
+    document.getElementById("overlaySettings").style.display = "flex";
+    document.getElementById("overlaySettings").style.animation = "fadeIn 0.5s";
+}
+Game.closeSettings = function() {
+    document.getElementById("overlaySettings").style.animation = "fadeOut 0.5s";
+    setTimeout(function() {
+        document.getElementById("overlaySettings").style.display = "none";
+    }, 500);
 }
 
 // reset kiwi function
@@ -377,9 +361,6 @@ Game.resetSave = function(){
     Game.updateExtractorCounter()
     Game.updateMakeKiwiButton()
     Game.gambleAvailable = false;
-    Game.pediaAvailable = false;
-    document.getElementById('buyPediaButton').style.display = "grid";
-    document.getElementById('openPedia').style.display = "none";
     document.getElementById('buyGambleButton').style.display = "grid";
     document.getElementById('gambleKiwiButton').style.display = "none";
     Game.kiwiPressButton.innerHTML = `buy press (${Game.pressPrice})`;
@@ -424,16 +405,6 @@ setInterval(function(){
         Game.kiwis = Game.kiwis + Game.extractorMakeCount * Game.extractorCount;
         Game.kiwiCounterText.innerHTML = `${formatter.format(Game.kiwis)} kiwis`;
     }
-    //pedia
-    if (Game.kiwis > Game.pediaPrice - 1) {
-        document.getElementById('buyPediaButton').style.border = "rgb(27, 66, 119) solid 5px";
-        document.getElementById('buyPediaButton').style.color = "rgb(14, 37, 68)";
-        document.getElementById('buyPediaButton').style.opacity = "100%";
-    } else {
-        document.getElementById('buyPediaButton').style.border = "rgb(80, 80, 80) solid 5px";
-        document.getElementById('buyPediaButton').style.color = "rgb(75, 75, 75)";
-        document.getElementById('buyPediaButton').style.opacity = "0.5";
-    }
     //pedia text
     if (Game.pressCount > 0) {
         document.getElementById('the-press').style.display = "inline block";
@@ -464,5 +435,4 @@ window.onbeforeunload = () => {
     Game.lds.set("gambleAvailable", Game.gambleAvailable);
     Game.lds.set("quitDate", Game.quitDate);
     Game.lds.set("goldenKiwiCounter", Game.goldenKiwiCounter);
-    Game.lds.set("pediaAvailable", Game.pediaAvailable);
 };
