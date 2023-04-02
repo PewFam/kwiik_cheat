@@ -64,19 +64,25 @@ Game.reductDateToSeconds = function(d){
 // start logic
 window.onload = () => {
     $(".loader").fadeOut("slow");
-    if (isNaN(Game.lds.get('kiwis'))){
-        Game.lds.set('kiwis', 0);
-        Game.updateKiwiCounter();
-    } else if (Game.lds.get('kiwis') === undefined) {
-        Game.lds.set('kiwis', 0);
-        Game.updateKiwiCounter();
-    }
+    
     Game.saveMade = Game.lds.get("saveMade");
     Game.kiwis = Game.lds.get("kiwis");
+    if (isNaN(Game.kiwis)) {
+        Game.kiwis = 0;
+    }
     Game.kiwiMakeCount = Game.lds.get("kiwiMakeCount");
+    if (isNaN(Game.kiwiMakeCount)) {
+        Game.kiwiMakeCount = 1;
+    }
     Game.pressCount = Game.lds.get("pressCount");
+    if (Game.pressCount == undefined) {
+        Game.pressCount = 0;
+    }
     Game.pressPrice = Game.lds.get("pressPrice");
     Game.extractorCount = Game.lds.get("extractorCount");
+    if (Game.extractorCount == undefined) {
+        Game.extractorCount = 0;
+    }
     Game.extractorMakeCount = Game.lds.get("extractorMakeCount");
     Game.extractorPrice = Game.lds.get("extractorPrice");
     Game.gambleAvailable = Game.lds.get("gambleAvailable");
