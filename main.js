@@ -108,7 +108,7 @@ window.onload = () => {
   }
 
   Game.goldenKiwiCounter = Game.lds.get("goldenKiwiCounter");
-  
+
   Game.startDate = Date.now();
   Game.startDate = Game.reductDateToSeconds(Game.startDate);
   Game.quitDate = Game.lds.get("quitDate");
@@ -132,12 +132,6 @@ window.onload = () => {
   Game.updateExtractorCounter();
   Game.goldenTrigger();
 
-  let pressToAdd = Game.pressCount;
-  while (pressToAdd > 0) {
-    pressToAdd--;
-    Game.pressRun();
-  }
-
   if (Game.saveMade === false) {
     Game.updateKiwiCounter();
     Game.updatePressCounter();
@@ -160,6 +154,8 @@ window.onload = () => {
     document.getElementById("the-gamble").style.display = "none";
   }
 
+  Game.updatePressBuyButton();
+
   setInterval(function () {
     Game.title = " kiwis - kwiik";
     document.title = formatter.format(Game.kiwis) + Game.title;
@@ -171,6 +167,12 @@ Game.makeKiwi = function () {
   formatter.format((Game.kiwis += Game.kiwiMakeCount));
   Game.updateKiwiCounter();
 };
+
+Game.updatePressBuyButton = function () {
+    document.getElementById(
+        "kiwiPressButton"
+      ).innerHTML = `buy press (${Game.pressPrice})`;
+}
 
 // runs when you buy a press
 Game.buyPress = function () {
